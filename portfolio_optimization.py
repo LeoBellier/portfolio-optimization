@@ -58,7 +58,6 @@ class PortfolioOprtimizer:
     def get_expected_returns(self):
         mu = expected_returns.mean_historical_return(self.df)
         S = risk_models.sample_cov(self.df)
-        
         ef = EfficientFrontier(mu, S)
         weights = ef.max_sharpe()
         cleaned_weights = ef.clean_weights()
@@ -66,8 +65,7 @@ class PortfolioOprtimizer:
             'cleanedWeights' : cleaned_weights,
             'portfolioPerformance': ef.portfolio_performance(verbose=True)
             }
-        return port_performance_percentage
-        
+        return port_performance_percentage       
     def get_discrete_allocation(self):
         latest_prices = get_latest_prices(self.df)
         weights = self.get_expected_returns['cleanedWeights']
@@ -77,7 +75,6 @@ class PortfolioOprtimizer:
             'fundsRemaining':  'Funds remaining: ${:.2f}'.format(leftover)
             }
         return discrete_allocarion_and_remaining
-
 def as_percent(value):
     return str(round(value, 2) * 100) + '%'
     
